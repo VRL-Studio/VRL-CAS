@@ -12,7 +12,7 @@
 // * @author Michael Hoffer <info@michaelhoffer.de>
 // */
 //public class Derive {
-//    public String derive(@ParamInfo(name="Expression", style="editor") String input, ) {
+//    public String derive(@ParamInfo(name="Expression", style="code") String input, ) {
 //        CAS cas = new CAS();
 //        cas.process("D("+input+"")
 //    }
