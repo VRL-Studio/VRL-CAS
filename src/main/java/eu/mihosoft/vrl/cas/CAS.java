@@ -7,6 +7,7 @@ package eu.mihosoft.vrl.cas;
 import eu.mihosoft.vrl.annotation.ComponentInfo;
 import eu.mihosoft.vrl.annotation.ParamInfo;
 import java.io.Serializable;
+import org.matheclipse.core.basic.Config;
 import org.matheclipse.core.eval.EvalEngine;
 import org.matheclipse.core.eval.ExprEvaluator;
 
@@ -36,6 +37,8 @@ public class CAS implements Serializable {
 
     private EvalEngine getEngine() {
         if (engine == null) {
+            Config.PARSER_USE_LOWERCASE_SYMBOLS = true;
+            
             engine = new EvalEngine(true);
         }
 
