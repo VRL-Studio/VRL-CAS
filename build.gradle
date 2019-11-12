@@ -1,10 +1,11 @@
 apply plugin: 'java'
 
 sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 	
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.1'
+wrapper {
+    gradleVersion = '5.6'
 }
 
 buildscript {
@@ -15,7 +16,7 @@ buildscript {
     }
     
     dependencies {
-        classpath (group: 'eu.mihosoft.vrl', name: 'vrl', version: '0.4.3.0.2')
+        classpath (group: 'eu.mihosoft.vrl', name: 'vrl', version: '0.4.4.0.3')
     }
 }
 
@@ -29,14 +30,12 @@ repositories {
 }
 
 dependencies {
-    // TODO: Add dependencies here ...
-    // You can read more about how to add dependency here:
-    //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
-    testCompile group: 'junit', name: 'junit', version: '4.10'
+  
+    testCompile group: 'junit', name: 'junit', version: '4.12'
     
-    compile (group: 'eu.mihosoft.vrl', name: 'vrl', version: '0.4.3.0.2')
-    compile (group: 'eu.mihosoft.vrl', name: 'vrl', version: '0.4.3.0.2', classifier: 'sources')
-    compile (group: 'eu.mihosoft.vrl', name: 'vrl', version: '0.4.3.0.2', classifier: 'javadoc')
+    compile (group: 'eu.mihosoft.vrl', name: 'vrl', version: '0.4.4.0.3')
+    compile (group: 'eu.mihosoft.vrl', name: 'vrl', version: '0.4.4.0.3', classifier: 'sources')
+    compile (group: 'eu.mihosoft.vrl', name: 'vrl', version: '0.4.4.0.3', classifier: 'javadoc')
 
     compile group: 'eu.mihosoft.ext.symja', name: 'extsymja', version: '0.2'
 }
@@ -64,7 +63,7 @@ jar {
         files.collect { zipTree(it) }
 
     // project class files compiled from source
-    from files(sourceSets.main.output.classesDir)
+    from files(sourceSets.main.output.classesDirs)
 }
 
 // loads the property file
@@ -87,11 +86,13 @@ String getVRLDir() {
 }
 
 // compiles and installs the vrl plugin to the specified folder
-task installVRLPlugin(dependsOn: [clean,jar]) << {
-    println(">> copying vrl plugin to: " + getVRLDir()+"/plugin-updates")
-    copy {
-        from buildDir.getPath()+"/libs/"+rootProject.name + ".jar"
-        into getVRLDir()+"/plugin-updates"
-        include '**/*.jar'
+task installVRLPlugin(dependsOn: [clean,jar]) {
+    doLast {
+        println(">> copying vrl plugin to: " + getVRLDir()+"/plugin-updates")
+        copy {
+            from buildDir.getPath()+"/libs/"+rootProject.name + ".jar"
+            into getVRLDir()+"/plugin-updates"
+            include '**/*.jar'
+        }
     }
 }
